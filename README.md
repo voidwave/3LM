@@ -89,6 +89,33 @@ node tools/check-world.mjs 40   # يفحص 40 عالمًا عشوائيًا
 
 ---
 
+## النشر على استضافة ثابتة — Deploying to a static host
+
+اللعبة **موقع ثابت بالكامل**: لا خادم خلفي، ولا خطوة بناء، ولا تبعيات وقت تشغيل.
+انشر المجلد كما هو على أي استضافة ملفات ثابتة وسيعمل مباشرة.
+
+**ما الذي ترفعه؟**
+- المطلوب: `index.html`، `styles.css`، ومجلد `js/` كامل (بما فيه `js/data/fallback-questions.json`).
+- اختياري: `tools/preview.html` (أداة معاينة الرسومات).
+- غير مطلوب للنشر (أدوات تطوير فقط): `dev-server.mjs`، `package.json`، `tools/*.mjs`، `README.md`.
+
+**أمثلة سريعة:**
+- **GitHub Pages:** ارفع الملفات إلى المستودع ثم Settings → Pages → Deploy from branch → root.
+  كل المسارات نسبية لذا يعمل داخل مجلد فرعي مثل `https://user.github.io/3LM-RPG/`.
+- **Netlify / Cloudflare Pages / Vercel:** اسحب المجلد وأفلته (بلا أمر بناء — مجلد النشر هو الجذر).
+- **استضافة تقليدية (FTP/cPanel):** انسخ الملفات إلى `public_html`.
+
+**شرطان أساسيان:**
+1. أن يبقى الجدول مشتركًا كـ «أي شخص لديه الرابط: عارض» — الوصول مسموح من أي نطاق
+   (تم اختباره من GitHub Pages وNetlify وعنوان شبكة محلية).
+2. يُقدَّم الموقع عبر HTTP/HTTPS — لا يعمل بفتح `index.html` مباشرةً من القرص، لأن المتصفح
+   يمنع وحدات ES و`fetch` في وضع `file://`.
+
+**ملاحظات:** إذا تعذّر الوصول إلى الجدول لحظة التشغيل تُستخدم النسخة المحفوظة تلقائيًا،
+والخطوط تُحمَّل من Google Fonts ومع انقطاعها تُستخدم خطوط النظام العربية.
+
+---
+
 ## ملاحظات تقنية — Technical notes
 
 - **بلا بناء وبلا مكتبات:** وحدات ES فقط. لا خطوة تجميع ولا تبعيات.
@@ -111,6 +138,9 @@ correct answer, 3–5 = wrong answers), collect keys, and open the gates up to t
 Library door. No combat.
 
 Run with `npm start` (or `node dev-server.mjs`) and open `http://localhost:8080`.
+The game is fully static — deploy the folder as-is to GitHub Pages, Netlify, or any
+static host (no build step). Only `index.html`, `styles.css` and `js/` are needed;
+`dev-server.mjs`, `tools/*.mjs` and `package.json` are dev-only helpers.
 
 - All tunables (sheet id/gid, hearts, scoring, gate fractions, Arabic strings, zone
   palettes) live in `js/config.js`.
