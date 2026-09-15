@@ -13,19 +13,19 @@ const csv = await fetchSheetCsv();
 const { items, skipped } = rowsToQuestions(parseCsv(csv));
 
 if (items.length === 0) {
-  console.error('❌ لا توجد أسئلة صالحة في الجدول — no valid questions found.');
-  process.exit(1);
+    console.error('❌ لا توجد أسئلة صالحة في الجدول — no valid questions found.');
+    process.exit(1);
 }
 
 await mkdir(fileURLToPath(new URL('../js/data/', import.meta.url)), { recursive: true });
 await writeFile(
-  outPath,
-  JSON.stringify(
-    { source: 'sheet', sheetId: SHEET.id, gid: SHEET.gid, fetchedAt: new Date().toISOString(), skipped, items },
-    null,
-    2
-  ) + '\n',
-  'utf8'
+    outPath,
+    JSON.stringify(
+        { source: 'sheet', sheetId: SHEET.id, gid: SHEET.gid, fetchedAt: new Date().toISOString(), skipped, items },
+        null,
+        2
+    ) + '\n',
+    'utf8'
 );
 
 console.log(`✅ تم حفظ ${items.length} سؤالًا (تم تجاهل ${skipped})`);

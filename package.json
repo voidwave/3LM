@@ -1,11 +1,11 @@
 {
-  "name": "rihlat-almarifa",
-  "version": "1.0.0",
-  "private": true,
-  "description": "رحلة المعرفة — لعبة RPG تعليمية إسلامية بالبكسل آرت (متصفح، عمودي للجوال)",
-  "type": "module",
-  "scripts": {
-    "start": "node dev-server.mjs",
-    "sheet": "node tools/fetch-sheet.mjs"
-  }
+    "name": "rihlat-almarifa",
+    "version": "1.0.0",
+    "private": true,
+    "description": "رحلة المعرفة — لعبة RPG تعليمية إسلامية بالبكسل آرت (متصفح، عمودي للجوال)",
+    "type": "module",
+    "scripts": {
+        "start": "node dev-server.mjs",
+        "sheet": "node tools/fetch-sheet.mjs"
+    }
 }
