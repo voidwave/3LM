@@ -81,7 +81,7 @@ function drawEntities(ctx, room, ox, oy, now) {
     // اللاعب (يُرسم أثناء الانتقال في مكان آخر)
     if (state.phase !== 'transition') {
         const p = state.player;
-        drawables.push({ y: p.y, draw: () => { drawShadow(ctx, p.x + ox, p.y + oy); drawSprite(ctx, playerSpriteName(), p.x + ox, p.y + oy, p.dir === 'left'); } });
+        drawables.push({ y: p.y, draw: () => { drawShadow(ctx, p.x + ox, p.y + oy); drawSprite(ctx, playerSpriteName(), p.x + ox, p.y + oy, p.dir === 'right'); } });
     }
     drawables.sort((a, b) => a.y - b.y);
     for (const d of drawables) d.draw();
@@ -148,7 +148,8 @@ export function render(ctx, interact, now) {
         const toPt = back ? doorInsidePoint(back.edge, back.index) : fromPt;
         const px = fromPt.x + (toPt.x - fromPt.x) * p;
         const py = fromPt.y + (toPt.y - fromPt.y) * p;
-        drawSprite(ctx, playerSpriteName(), px, py, state.player.dir === 'left');
+        // قاعدة رسم الجانب تنظر لليسار، والنسخة المعكوسة تُستخدم لليمين
+        drawSprite(ctx, playerSpriteName(), px, py, state.player.dir === 'right');
         ctx.restore();
         return;
     }

@@ -92,6 +92,8 @@ export const ART = {
             '..obbbbbbo..', '..oppppppo..', '...osooso...', '...osooso...',
         ]
     },
+    // رسمة الجانب تنظر لليسار — يُعكس اتجاهها للّاعب المتجه لليمين
+    // Side-view art faces LEFT; the renderer mirrors it for 'right'.
     p_side0: {
         pal: P_PLAYER, mirror: true, px: [
             '....oooo....', '...occcco...', '..occcccco..', '..occddcco..',
@@ -505,7 +507,9 @@ export const ART = {
         ]
     },
     chest_open: {
-        pal: { o: OUT, B: '#c98b3c', b: '#a8703c', G: '#d9a441', k: '#6a4426', g: '#ffe9a8' }, solid: [1, 3, 14, 12], px: [
+        // الصندوق المفتوح يبدو أطول بـ2px، لذا نُزيح صندوق التصادم ليبقى مطابقًا تمامًا
+        // للمغلق فلا تتغير الفيزياء عند الفتح — same world collision box as closed
+        pal: { o: OUT, B: '#c98b3c', b: '#a8703c', G: '#d9a441', k: '#6a4426', g: '#ffe9a8' }, solid: [1, 5, 14, 10], px: [
             '...ooooooooo....', '..oBBbbbbbBo....', '..oBbbbbbbBo....', '..oBGGGGGGGo....',
             '..oBgggggggo....', '..oGGGGGGGGo....', '..oBbbbbbbBBo...', '..obbbbbbbbbo...',
             '..oBbbbbbbBBo...', '..oBbbbbbbBBo...', '..oGGGGbbGGGo...', '..oGGGGbbGGGo...',

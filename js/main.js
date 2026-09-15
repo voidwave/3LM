@@ -7,7 +7,7 @@ import { render } from './render/renderer.js';
 import {
     state, startRun, movePlayer, touchingDoor, startTransition, updateTransition,
     findInteractable, openQuiz, answerQuiz, closeQuiz, openChest, gateOpen,
-    updateParticles, accuracy, elapsedSeconds, currentRoom,
+    updateParticles, accuracy, elapsedSeconds, currentRoom, unstickPlayer,
 } from './game/state.js';
 import { attachInput, input } from './engine/input.js';
 import { initAudio, sfx, setMuted, isMuted } from './engine/audio.js';
@@ -157,6 +157,7 @@ function update(dt, now) {
     }
 
     if (state.phase === 'play') {
+        unstickPlayer(); // لا يبقى اللاعب عالقًا داخل أي صندوق — never freeze inside a solid
         updatePlayer(dt);
         interact = findInteractable();
         const door = touchingDoor(input.x, input.y);

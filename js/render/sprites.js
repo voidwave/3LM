@@ -47,8 +47,20 @@ export function bakeAll() {
     }
 }
 
-export const hasSprite = (name) => baked.has(name);
-export const spriteInfo = (name) => baked.get(name);
+export const hasSprite = (name) => baked.has(name) || !!ART[name];
+
+/** بيانات الرمز (أو بياناته الوصفية قبل الخبز — مفيد للاختبار في Node)
+ *  Sprite entry; falls back to ART metadata when nothing is baked (Node tools). */
+export const spriteInfo = (name) => baked.get(name) ?? artMeta(name);
+
+function artMeta(name) {
+    const def = ART[name];
+    if (!def) return undefined;
+    const w = def.w ?? (def.px ? def.px[0].length : 16);
+    const h = def.h ?? (def.px ? def.px.length : 16);
+    const solid = def.solid ? { x: def.solid[0], y: def.solid[1], w: def.solid[2], h: def.solid[3] } : null;
+    return { canvas: null, w, h, solid, anchor: def.anchor ?? 'feet', glow: def.glow ?? null };
+}
 
 /** رسم رمز بنقطة ارتكاز عند القدمين ثم تمديد نصف العرض لليسار — draw at feet anchor */
 export function drawSprite(ctx, name, x, y, flip = false) {

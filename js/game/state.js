@@ -137,6 +137,32 @@ function magnetAxis(edge, p, room, dt) {
     }
 }
 
+/** شبكة أمان: إن وجد اللاعب نفسه داخل صندوق صلب (تغيّر فيزياء/انتقال) يُدفع للخارج
+ *  بأقصر مسار بدل أن يتجمد — safety net: push the player out instead of freezing */
+export function unstickPlayer() {
+    const p = state.player;
+    const clampX = (x) => Math.max(INT.x + FEET.w / 2, Math.min(INT.x + INT.w - FEET.w / 2, x));
+    const clampY = (y) => Math.max(INT.y + FEET.h, Math.min(INT.y + INT.h, y));
+    for (let pass = 0; pass < 2; pass++) {
+        const b = { x: p.x - FEET.w / 2, y: p.y - FEET.h, w: FEET.w, h: FEET.h };
+        let hit = null;
+        for (const s of roomSolids(currentRoom())) {
+            if (b.x < s.x + s.w && b.x + b.w > s.x && b.y < s.y + s.h && b.y + b.h > s.y) { hit = s; break; }
+        }
+        if (!hit) return;
+        // اختر أقصر مخرج من الصناديق الأربعة — shortest way out of the box
+        const outs = [
+            { dx: hit.x - (b.x + b.w) - 0.5, dy: 0 },
+            { dx: hit.x + hit.w - b.x + 0.5, dy: 0 },
+            { dx: 0, dy: hit.y - (b.y + b.h) - 0.5 },
+            { dx: 0, dy: hit.y + hit.h - b.y + 0.5 },
+        ];
+        outs.sort((a, c) => (Math.abs(a.dx) + Math.abs(a.dy)) - (Math.abs(c.dx) + Math.abs(c.dy)));
+        p.x = clampX(p.x + outs[0].dx);
+        p.y = clampY(p.y + outs[0].dy);
+    }
+}
+
 // ---------------------------------------------------------------------------
 // الانتقال بين الغرف — room transitions
 // ---------------------------------------------------------------------------

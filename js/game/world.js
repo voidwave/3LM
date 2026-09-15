@@ -274,26 +274,48 @@ function fillRoom(rng, room, zoneDef, opts = {}) {
         block(px, py, 16, 14);
     }
 
+    // مناطق تبقى خالية: حول الأبواب والنقطة البداية وشخصية/صندوق — keep-clear zones
+    const keepClear = [];
+    for (const door of room.doors) {
+        const pt = doorInsidePoint(door.edge, door.index);
+        keepClear.push({ x: pt.x - 13, y: pt.y - 11, w: 26, h: 22 });
+    }
+    if (room.kind === 'entry') {
+        keepClear.push({ x: INT.x + INT.w / 2 - 16, y: INT.y + INT.h / 2 - 2, w: 32, h: 22 }); // نقطة البداية
+    }
+    if (room.npc) keepClear.push({ x: room.npc.x - 10, y: room.npc.y - 17, w: 20, h: 18 });
+    if (room.chest) keepClear.push({ x: room.chest.x - 10, y: room.chest.y - 16, w: 20, h: 18 });
+
+    const hits = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+    const boxOf = (name, px, py) => {
+        const info = spriteInfo(name);
+        if (!info) return null;
+        const s = info.solid;
+        // عناصر مسطّحة بلا تصادم: نستخدم حجمها الفعلي للتحقق فقط
+        return s
+            ? { x: px - info.w / 2 + s.x, y: py - info.h + s.y, w: s.w, h: s.h }
+            : { x: px - info.w / 2, y: py - info.h, w: info.w, h: info.h };
+    };
+
     // زينة — props
     const count = opts.chapel ? 3 : rng.int(3, 6);
     for (let i = 0; i < count; i++) {
         const name = rng.weighted(zoneDef.props);
         const info = spriteInfo(name);
-        const pw = info?.w ?? 16, ph = info?.h ?? 16;
-        let px = 0, py = 0, tries = 0;
-        do {
+        if (!info) continue;
+        const pw = info.w, ph = info.h;
+        for (let tries = 0; tries < 14; tries++) {
             const tx = rng.int(1, INT.cols - 2);
             const ty = rng.int(1, INT.rows - 2);
-            px = W + tx * T + T / 2;
-            py = W + ty * T + 14;
-            tries++;
-        } while (tries < 30 && occupied.has(`${Math.floor((px - T / 2 - W) / T)},${Math.floor((py - 14 - W) / T)}`));
-
-        const cx = Math.floor((px - W) / T), cy = Math.floor((py - W) / T);
-        if (doorCells.has(`${cx},${cy}`) || doorCells.has(`${cx},${cy - 1}`)) continue;
-        if (room.npc && Math.abs(px - room.npc.x) < 24 && Math.abs(py - room.npc.y) < 24) continue;
-        if (room.chest && Math.abs(px - room.chest.x) < 28 && Math.abs(py - room.chest.y) < 24) continue;
-        room.props.push({ name, x: px, y: py });
-        block(px, py, pw, ph);
+            const px = W + tx * T + T / 2;
+            const py = W + ty * T + 14;
+            if (occupied.has(`${tx},${ty}`)) continue;
+            if (doorCells.has(`${tx},${ty}`) || doorCells.has(`${tx},${ty - 1}`)) continue;
+            const box = boxOf(name, px, py);
+            if (!box || keepClear.some((r) => hits(box, r))) continue;
+            room.props.push({ name, x: px, y: py });
+            block(px, py, pw, ph);
+            break;
+        }
     }
 }

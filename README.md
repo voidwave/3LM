@@ -80,6 +80,13 @@ npm start                    # نفس الأمر
 `http://localhost:8080/tools/preview.html?page=1&per=12&scale=5&cols=4`
 تعرض كل الرسومات مكبَّرة مع تحقق تلقائي من صحة صفوف البكسل، وتُظهر مستطيلات التصادم.
 
+### فحص العالم المولَّد (أداة تطوير)
+```bash
+node tools/check-world.mjs 40   # يفحص 40 عالمًا عشوائيًا
+```
+يتحقق من: اتصال الغرف، وجود محتوى في كل غرفة، خلوص الزينة عن الأبواب ونقطة البداية،
+صحة أزواج الأبواب، وتدرج متطلبات البوابات — مفيد جدًا بعد أي تعديل على التوليد.
+
 ---
 
 ## ملاحظات تقنية — Technical notes
@@ -115,3 +122,6 @@ Run with `npm start` (or `node dev-server.mjs`) and open `http://localhost:8080`
 - Sprites are pre-baked to canvases at boot; rooms are painted once and cached; rendering
   is a single `requestAnimationFrame` loop of `drawImage` calls — very light on phones.
 - Sprite QA tool: `/tools/preview.html`.
+- World generator checker (no browser needed): `node tools/check-world.mjs 40` — verifies
+  connectivity, room content, prop clearance from doors/spawn, door pairing and gate
+  progression across many random seeds.
