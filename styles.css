@@ -13,8 +13,13 @@
     --muted: #b9aed4;
     --green: #7ac86a;
     --red: #e05454;
+    /* Handjet خط بكسل: استخدمه للنصوص اللاتينية/الأرقام فقط (--font-display).
+       Safari لا يطبّق تشكيل العربية داخل Handjet فتظهر الحروف مقلوبة/غير متصلة،
+       لذلك كل نص عربي يجب أن يستخدم --font-body.
+       Handjet is Latin/digit-only: Safari's text engine does not shape its
+       Arabic (letters render unjoined/reversed) — Arabic uses --font-body. */
     --font-display: 'Handjet', 'Noto Kufi Arabic', 'Segoe UI', Tahoma, sans-serif;
-    --font-body: 'Noto Kufi Arabic', 'Handjet', 'Segoe UI', Tahoma, sans-serif;
+    --font-body: 'Noto Kufi Arabic', 'Segoe UI', Tahoma, sans-serif;
 }
 
 * {
@@ -32,7 +37,7 @@ body {
 }
 
 body {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     color: var(--cream);
     -webkit-user-select: none;
     user-select: none;
@@ -96,6 +101,7 @@ body {
     display: flex;
     align-items: center;
     gap: 3px;
+    font-family: var(--font-display); /* أرقام فقط — digits only */
     font-size: 22px;
     font-weight: 800;
 }
@@ -115,6 +121,7 @@ body {
 }
 
 .zone {
+    font-family: var(--font-body); /* نص عربي — Arabic */
     font-size: 20px;
     color: var(--muted);
     margin-inline-end: 4px;
@@ -183,6 +190,7 @@ body {
 }
 
 .panel-title {
+    font-family: var(--font-body); /* نص عربي — Arabic */
     font-size: 20px;
     color: var(--gold);
     margin-bottom: 6px;
@@ -194,6 +202,7 @@ body {
 }
 
 .panel-hint {
+    font-family: var(--font-body); /* نص عربي — Arabic */
     font-size: 15px;
     color: var(--muted);
     margin-top: 6px;
@@ -288,6 +297,7 @@ body {
 }
 
 .npc-name {
+    font-family: var(--font-body); /* نص عربي — Arabic */
     font-size: 24px;
     color: var(--gold);
     font-weight: 800;
@@ -385,7 +395,7 @@ body {
 }
 
 .leave {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-size: 20px;
     padding: 6px 18px;
     background: var(--panel-2);
@@ -488,7 +498,7 @@ body.touch #controls {
     width: 86px;
     height: 86px;
     border-radius: 50%;
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-size: 24px;
     font-weight: 800;
     color: #2a1f10;
@@ -537,15 +547,16 @@ body.touch #controls {
 }
 
 .screen-title {
+    font-family: var(--font-body); /* نص عربي — Arabic */
     font-size: 30px;
     font-weight: 800;
     color: var(--gold);
 }
 
 .screen-title.big {
+    /* بلا letter-spacing: يفكّ اتصال الحروف العربية — would break Arabic joins */
     font-size: 46px;
     line-height: 1.15;
-    letter-spacing: 1px;
     text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
 }
 
@@ -585,7 +596,7 @@ body.touch #controls {
 }
 
 .btn {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-size: 22px;
     padding: 10px 26px;
     margin-top: 14px;
@@ -641,6 +652,7 @@ body.touch #controls {
 }
 
 .rank {
+    font-family: var(--font-body); /* نص عربي — Arabic */
     font-size: 30px;
     font-weight: 800;
     color: var(--green);
