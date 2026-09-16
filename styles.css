@@ -101,7 +101,8 @@ body {
     display: flex;
     align-items: center;
     gap: 3px;
-    font-family: var(--font-display); /* أرقام فقط — digits only */
+    font-family: var(--font-display);
+    /* أرقام فقط — digits only */
     font-size: 22px;
     font-weight: 800;
 }
@@ -121,7 +122,8 @@ body {
 }
 
 .zone {
-    font-family: var(--font-body); /* نص عربي — Arabic */
+    font-family: var(--font-body);
+    /* نص عربي — Arabic */
     font-size: 20px;
     color: var(--muted);
     margin-inline-end: 4px;
@@ -190,7 +192,8 @@ body {
 }
 
 .panel-title {
-    font-family: var(--font-body); /* نص عربي — Arabic */
+    font-family: var(--font-body);
+    /* نص عربي — Arabic */
     font-size: 20px;
     color: var(--gold);
     margin-bottom: 6px;
@@ -202,7 +205,8 @@ body {
 }
 
 .panel-hint {
-    font-family: var(--font-body); /* نص عربي — Arabic */
+    font-family: var(--font-body);
+    /* نص عربي — Arabic */
     font-size: 15px;
     color: var(--muted);
     margin-top: 6px;
@@ -297,7 +301,8 @@ body {
 }
 
 .npc-name {
-    font-family: var(--font-body); /* نص عربي — Arabic */
+    font-family: var(--font-body);
+    /* نص عربي — Arabic */
     font-size: 24px;
     color: var(--gold);
     font-weight: 800;
@@ -547,7 +552,8 @@ body.touch #controls {
 }
 
 .screen-title {
-    font-family: var(--font-body); /* نص عربي — Arabic */
+    font-family: var(--font-body);
+    /* نص عربي — Arabic */
     font-size: 30px;
     font-weight: 800;
     color: var(--gold);
@@ -652,7 +658,8 @@ body.touch #controls {
 }
 
 .rank {
-    font-family: var(--font-body); /* نص عربي — Arabic */
+    font-family: var(--font-body);
+    /* نص عربي — Arabic */
     font-size: 30px;
     font-weight: 800;
     color: var(--green);
